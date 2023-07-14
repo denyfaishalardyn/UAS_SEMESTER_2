@@ -1,0 +1,78 @@
+package TokopediaUAS;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+
+    public class Inventory {
+        private List<Product> products;
+
+        public Inventory() {
+            products = new ArrayList<>();
+        }
+
+        public void addProduct(Product product) {
+            products.add(product);
+        }
+
+        public void displayInventory() {
+            for (Product product : products) {
+                System.out.println(product);
+            }
+        }
+
+        public void sortByName() {
+            int n = products.size();
+            for (int i = 0; i < n - 1; i++) {
+                int minIndex = i;
+                for (int j = i + 1; j < n; j++) {
+                    if (products.get(j).getName().compareTo(products.get(minIndex).getName()) < 0) {
+                        minIndex = j;
+                    }
+                }
+                Collections.swap(products, i, minIndex);
+            }
+        }
+
+        public List<Product> searchByName(String keyword) {
+            List<Product> foundProducts = new ArrayList<>();
+            for (Product product : products) {
+                if (product.getName().equalsIgnoreCase(keyword)) {
+                    foundProducts.add(product);
+                }
+            }
+            return foundProducts;
+        }
+
+    public static void main(String[] args) {
+        Inventory inventory = new Inventory();
+        inventory.addProduct(new Product("Keyboard", 100, 5));
+        inventory.addProduct(new Product("Mouse", 50, 10));
+        inventory.addProduct(new Product("Monitor", 200, 3));
+        inventory.addProduct(new Product("Laptop", 1000, 2));
+        inventory.addProduct(new Product("Kabel Usb Type C", 20000, 1));
+
+        System.out.println("Inventory sebelum diurutkan:");
+        inventory.displayInventory();
+
+        inventory.sortByName();
+
+        System.out.println("\nInventory setelah diurutkan:");
+        inventory.displayInventory();
+
+        String searchKeyword = "Mouse";
+        List<Product> foundProducts = inventory.searchByName(searchKeyword);
+        if (!foundProducts.isEmpty()) {
+            System.out.println("\nHasil pencarian untuk '" + searchKeyword + "':");
+            for (Product product : foundProducts) {
+                System.out.println(product);
+            }
+        } else {
+            System.out.println("Tidak ditemukan produk dengan nama '" + searchKeyword + "'.");
+        }
+    }
+}
+
+
+
+
